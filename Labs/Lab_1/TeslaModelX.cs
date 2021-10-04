@@ -51,7 +51,7 @@ namespace Lab_1
         {
             get
             {
-                return ConsumptionPerKm;
+                return consumptionPerKm;
             }
             set
             {
