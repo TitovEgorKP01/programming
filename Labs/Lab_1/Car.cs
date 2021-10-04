@@ -41,10 +41,10 @@ namespace Lab_1
             {
                 if (disposing)
                 {
-                    // Console.WriteLine("-- Managed resourses disposed --");
+                    // Disposing managed resources
                 }
 
-                // Console.WriteLine("-- Unmanaged resourses disposed --");
+                // Disposing unmanaged resources
                 
                 disposed = true;
             }
