@@ -4,40 +4,48 @@ namespace Lab_1
 {
     class ElectroCar : Car
     {
-        protected double batteryCapacity;
+        protected double maxBatteryCapacity;
+        protected double currentChargeLevel = 0;
 
         static ElectroCar()
         {
             carType = "Electric Car";
         }
 
-        public ElectroCar(string name, string numbers, double batteryCapacity) : base(name, numbers)
+        public ElectroCar(string name, string numbers, double maxBatteryCapacity) : base(name, numbers)
         {
-            if (batteryCapacity > 0)
+            if (maxBatteryCapacity > 0)
             {
-                this.batteryCapacity = batteryCapacity;    
+                this.maxBatteryCapacity = maxBatteryCapacity;    
             }
             else
             {
-                this.batteryCapacity = 0;
+                this.maxBatteryCapacity = 0;
             }            
         }
 
         public ElectroCar() : base()
         {
-            this.batteryCapacity = 0;
+            this.maxBatteryCapacity = 0;
         }
 
         
-        public Charging()
+        public void ChargeCar(double chargeAmount)
         {
-
+            if ((maxBatteryCapacity - currentChargeLevel) > chargeAmount)
+            {
+                currentChargeLevel += chargeAmount;
+            }
+            else
+            {
+                currentChargeLevel = maxBatteryCapacity;
+            }
         }
 
 
         public override string GetCarDescription()
         {
-            return $"-- Car description: [Owner: {ownerName}]; [Numbers: {numbers}];\n [Type: {carType}] [Battery capacity: {batteryCapacity} Watt * Hour]";
+            return $"-- Car description: [Owner: {ownerName}]; [Numbers: {numbers}];\n [Type: {carType}] [Battery capacity: {maxBatteryCapacity} Watt * Hour]";
         }
     
         ~ElectroCar()

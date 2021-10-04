@@ -4,35 +4,46 @@ namespace Lab_1
 {
     class ICECar : Car // car with internal combustion engine - авто с ДВС
     {
-        protected double tankCapacity;
+        protected double maxTankCapacity;
+        protected double currentFuelLevel = 0;
 
         static ICECar()
         {
             carType = "ICE Car";
         }
 
-        public ICECar(string name, string numbers, double tankCapacity) : base(name, numbers)
+        public ICECar(string name, string numbers, double maxTankCapacity) : base(name, numbers)
         {
-            if (tankCapacity > 0)
+            if (maxTankCapacity > 0)
             {
-                this.tankCapacity = tankCapacity;    
+                this.maxTankCapacity = maxTankCapacity;    
             }
             else
             {
-                this.tankCapacity = 0;
+                this.maxTankCapacity = 0;
             }            
         }
 
         public ICECar() : base()
         {
-            this.tankCapacity = 0;
+            this.maxTankCapacity = 0;
         }
 
-
+        public void FillCar(double fuelAmount)
+        {
+            if ((maxTankCapacity - currentFuelLevel) > fuelAmount)
+            {
+                currentFuelLevel += fuelAmount;
+            }
+            else
+            {
+                currentFuelLevel = maxTankCapacity;
+            }
+        }
 
         public override string GetCarDescription()
         {
-            return $"-- Car description: [Owner: {ownerName}]; [Numbers: {numbers}];\n [Type: {carType}] [Tank capacity: {tankCapacity} Litres]";
+            return $"-- Car description: [Owner: {ownerName}]; [Numbers: {numbers}];\n [Type: {carType}] [Tank capacity: {maxTankCapacity} Litres]";
         }
     
         ~ICECar()

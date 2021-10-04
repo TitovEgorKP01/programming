@@ -13,7 +13,7 @@ namespace Lab_1
             this.ConsumptionPerKm = 0;
         }
 
-        private TeslaModelX(string name, string numbers, double batteryCapacity, double consumption) : base(name, numbers, batteryCapacity)
+        private TeslaModelX(string name, string numbers, double maxBatteryCapacity, double consumption) : base(name, numbers, maxBatteryCapacity)
         {
             this.productionDate = DateTime.Now;
             
@@ -21,9 +21,9 @@ namespace Lab_1
         }
 
 
-        public static TeslaModelX GetCar(string name, string numbers, double batteryCapacity, double consumption)
+        public static TeslaModelX GetCar(string name, string numbers, double maxBatteryCapacity, double consumption)
         {
-            return new TeslaModelX(name, numbers, batteryCapacity, consumption); 
+            return new TeslaModelX(name, numbers, maxBatteryCapacity, consumption); 
         }
 
         public static TeslaModelX GetCar()
@@ -38,7 +38,7 @@ namespace Lab_1
             {
                 if (ConsumptionPerKm != 0)
                 {
-                    return batteryCapacity / ConsumptionPerKm;
+                    return maxBatteryCapacity / ConsumptionPerKm;
                 }
                 else
                 {
@@ -66,11 +66,27 @@ namespace Lab_1
             }
         }
 
+        public void RemoteOpenDoor(int doorNumber)
+        {
+            if (doorNumber < 1)
+            {
+                Console.WriteLine("Rear trunk opened");
+            }
+            else if (doorNumber > 4)
+            {
+                Console.WriteLine("Front trunk opened");
+            }
+            else
+            {
+                Console.WriteLine($"Door {doorNumber} opened");
+            }
+        }
+
 
         public override string GetCarDescription()
         {
             return $"-- Car description: - [Owner: {ownerName}] - [Numbers: {numbers}] -\n" + 
-            $"- [Type: {carType}] - [Battery capacity: {batteryCapacity} Watt * Hour] -\n" + 
+            $"- [Type: {carType}] - [Battery capacity: {maxBatteryCapacity} Watt * Hour] -\n" + 
             $"- [Production Date: {productionDate.ToString("d")}] -";
         }
 

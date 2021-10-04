@@ -38,7 +38,7 @@ namespace Lab_1
             {
                 if (ConsumptionPerKm != 0)
                 {
-                    return tankCapacity / ConsumptionPerKm;
+                    return maxTankCapacity / ConsumptionPerKm;
                 }
                 else
                 {
@@ -66,11 +66,16 @@ namespace Lab_1
             }
         }
 
+        public void OpenRoof()
+        {
+            Console.WriteLine("Roof opened");
+        }
+
 
         public override string GetCarDescription()
         {
             return $"-- Car description: - [Owner: {ownerName}] - [Numbers: {numbers}] -\n" + 
-            $"- [Type: {carType}] - [Tank capacity: {tankCapacity} Litres] -\n" + 
+            $"- [Type: {carType}] - [Tank capacity: {maxTankCapacity} Litres] -\n" + 
             $"- [Production Date: {productionDate.ToString("d")}] -";
         }
     
