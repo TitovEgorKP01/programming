@@ -67,7 +67,7 @@ namespace Lab_1
         }
 
 
-        public override string CarDescription()
+        public override string GetCarDescription()
         {
             return $"-- Car description: - [Owner: {ownerName}] - [Numbers: {numbers}] -\n" + 
             $"- [Type: {carType}] - [Battery capacity: {batteryCapacity} Watt * Hour] -\n" + 

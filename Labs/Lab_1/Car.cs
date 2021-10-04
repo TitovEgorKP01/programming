@@ -23,7 +23,7 @@ namespace Lab_1
             this.numbers = numbers;
         }
 
-        public virtual string CarDescription()
+        public virtual string GetCarDescription()
         {
             return $"-- Car description: [Owner: {ownerName}]; [Numbers: {numbers}]";
         }
