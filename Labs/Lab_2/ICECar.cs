@@ -36,11 +36,17 @@ namespace Lab_2
 
         void IICECar.FillCar(RefuelingOperator oper, FillingEventArgs fArgs)
         {
+            Action<RefuelingOperator> newClientReact = oper => Console.WriteLine($"[{oper.Fullname}] see new client car, it's [ICE car]");
+
+            newClientReact(oper);
+
+            Func<double, double, double> calcPercent = (currValue, maxValue) => currValue / maxValue * 100;
+            
             if ((maxTankCapacity - currentFuelLevel) > fArgs.FillVolume)
             {
                 currentFuelLevel += fArgs.FillVolume;
 
-                double currPercentFill = currentFuelLevel / maxTankCapacity * 100;
+                double currPercentFill = calcPercent(currentFuelLevel, maxTankCapacity);
 
                 Console.WriteLine($"Car of [Owner: {ownerName}] filled by [Operator: {oper.Fullname}]. Current fill: {currPercentFill:f2} %");
             }
@@ -50,6 +56,8 @@ namespace Lab_2
 
                 Console.WriteLine($"Car of [Owner: {ownerName}] filled by [Operator: {oper.Fullname}]. Current fill: 100 %");
             }
+
+            Console.WriteLine();
         }
 
         public override string GetCarDescription()

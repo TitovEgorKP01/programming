@@ -1,6 +1,16 @@
-﻿namespace Lab_2
+﻿using System;
+
+namespace Lab_2
 {
-    public delegate void FillingHandle(RefuelingOperator oper, FillingEventArgs chargs);
+    static class TeslaExtension
+    {
+        public static void OnPartyMode(this TeslaModelX tesla)
+        {
+            Console.WriteLine("Party mode is on");
+        }
+    }
+
+    public delegate void FillingHandle(RefuelingOperator oper, FillingEventArgs fArgs);
 
 
     class Program
@@ -12,6 +22,19 @@
             FillStation station = new FillStation(oper);
 
             oper.FillUp();
+
+            
+            FillingHandle currentFillInfo = delegate(RefuelingOperator oper, FillingEventArgs fArgs)
+            {
+                Console.WriteLine($"Current filling/charging operator: [{oper.Fullname}]; Current filling volume: [{fArgs.FillVolume}] litres; Current charging power: [{fArgs.Power}] Watt");
+            };
+            
+            currentFillInfo(oper, oper.fArgs);
+
+            Console.WriteLine();
+
+            TeslaModelX tesla = TeslaModelX.GetCar("owner", "numbers", 1_000_000, 1);
+            tesla.OnPartyMode();
         }
     }
 }

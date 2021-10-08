@@ -10,6 +10,11 @@ namespace Lab_2
 
         public FillingEventArgs(double fuelVolume, double chargePower)
         {
+            if (fuelVolume <= 0 || chargePower <= 0)
+            {
+                throw new FillArgumentsException(this);
+            }
+            
             this.fuelVolume = fuelVolume;
             this.chargePower = chargePower;
         }

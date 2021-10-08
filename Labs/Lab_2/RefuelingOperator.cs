@@ -5,6 +5,7 @@ namespace Lab_2
     public class RefuelingOperator
     {
         public event FillingHandle FillingEvent;
+        public FillingEventArgs fArgs;
         private string name;
         private string surname;
 
@@ -33,31 +34,31 @@ namespace Lab_2
                 Console.Write("Enter charge power: ");
                 power = Double.Parse(Console.ReadLine());
 
-                if (volume <= 0 || power <= 0)
-                {
-                    throw new ArgumentException();
-                }
-
                 fillArgs = new FillingEventArgs(volume, power);
             }
-            catch
+            catch (Exception ex)
             {
                 Console.WriteLine("".PadRight(83, '#'));
-                Console.WriteLine("Incorrect values entered. Set to default values");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Set to default values: [Fill volume: 1 liter]; [Charge power: 1_000 Watt]");
                 Console.WriteLine("".PadRight(83, '#'));
 
                 fillArgs = new FillingEventArgs();
             }
-
-            // Console.WriteLine();
-
-            Console.WriteLine($"Operator {this.name} is responsible for filling cars.");
-
-            // Console.WriteLine();
-
-            if (FillingEvent != null)
+            finally
             {
-                FillingEvent((RefuelingOperator)this, fillArgs);
+                fArgs = fillArgs;
+
+                Console.WriteLine();
+
+                Console.WriteLine($"Operator {this.name} is responsible for filling cars.");
+
+                Console.WriteLine();
+
+                if (FillingEvent != null)
+                {
+                    FillingEvent((RefuelingOperator)this, fillArgs);
+                }   
             }
         }
     

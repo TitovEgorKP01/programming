@@ -37,11 +37,17 @@ namespace Lab_2
 
         void IElectroCar.ChargeCar(RefuelingOperator oper, FillingEventArgs fArgs)
         {
+            Action<RefuelingOperator> newClientReact = oper => Console.WriteLine($"[{oper.Fullname}] see new client car, it's [Electric car]");
+
+            newClientReact(oper);
+
+            Func<double, double, double> calcPercent = (currValue, maxValue) => currValue / maxValue * 100;
+
             if ((maxBatteryCapacity - currentChargeLevel) > fArgs.Power)
             {
                 currentChargeLevel += fArgs.Power;
 
-                double currPercentCharge = currentChargeLevel / maxBatteryCapacity * 100;
+                double currPercentCharge = calcPercent(currentChargeLevel, maxBatteryCapacity);
 
                 Console.WriteLine($"Car of [Owner: {ownerName}] charged by [Operator: {oper.Fullname}]. Current charge: {currPercentCharge:f2} %");
             }
@@ -51,6 +57,8 @@ namespace Lab_2
 
                 Console.WriteLine($"Car of [Owner: {ownerName}] charged by [Operator: {oper.Fullname}]. Current charge: 100 %");
             }
+
+            Console.WriteLine();
         }
 
 
