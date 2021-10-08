@@ -2,11 +2,6 @@ using System;
 
 namespace Lab_2
 {
-    interface IMazdaMX5
-    {
-        void OpenRoof();
-    }
-
     class MazdaMX5 : ICECar, IICECar, IMazdaMX5
     {
         private DateTime productionDate;

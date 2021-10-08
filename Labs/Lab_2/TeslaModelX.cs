@@ -2,11 +2,6 @@ using System;
 
 namespace Lab_2
 {
-    interface ITeslaModelX
-    {
-        void RemoteOpenDoor(int doorNumber);
-    }
-
     class TeslaModelX : ElectroCar, IElectroCar, ITeslaModelX
     {
         private DateTime productionDate;

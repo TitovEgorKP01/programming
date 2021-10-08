@@ -2,11 +2,6 @@ using System;
 
 namespace Lab_2
 {
-    interface IICECar
-    {
-        void FillCar(RefuelingOperator oper, FillingEventArgs fArgs);
-    }
-
     class ICECar : Car, IICECar // car with internal combustion engine - авто с ДВС
     {
         protected double maxTankCapacity;
