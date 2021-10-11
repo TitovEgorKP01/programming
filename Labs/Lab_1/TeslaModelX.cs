@@ -6,6 +6,7 @@ namespace Lab_1
     {
         private DateTime productionDate;
         private double consumptionPerKm;
+        static double carPrice = 60_000;
 
         private TeslaModelX() : base()
         {
@@ -21,14 +22,32 @@ namespace Lab_1
         }
 
 
-        public static TeslaModelX GetCar(string name, string numbers, double maxBatteryCapacity, double consumption)
+        public static TeslaModelX GetCar(string name, string numbers, double maxBatteryCapacity, double consumption, double clientPay)
         {
-            return new TeslaModelX(name, numbers, maxBatteryCapacity, consumption); 
+            if (clientPay < carPrice)
+            {
+                return new TeslaModelX(name, numbers, maxBatteryCapacity, consumption);
+            }
+            else
+            {
+                Console.WriteLine("Not enough money to buy TeslaModelX");
+
+                return null;
+            }             
         }
 
-        public static TeslaModelX GetCar()
+        public static TeslaModelX GetCar(double clientPay)
         {
-            return new TeslaModelX(); 
+            if (clientPay < carPrice)
+            {
+                return new TeslaModelX();
+            }
+            else
+            {
+                Console.WriteLine("Not enough money to buy TeslaModelX");
+
+                return null;
+            } 
         }
 
 

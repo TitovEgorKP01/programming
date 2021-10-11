@@ -40,7 +40,7 @@ namespace Lab_1
 
         private static void DisposeCars()
         {
-            TeslaModelX tesla = TeslaModelX.GetCar();
+            TeslaModelX tesla = TeslaModelX.GetCar(60_000);
 
             tesla.Dispose();
 
