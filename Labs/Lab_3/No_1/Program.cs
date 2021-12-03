@@ -1,111 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace No_1
+﻿namespace No_1
 {
     class Program
     {
         static void Main(string[] args)
         {
+            Composite buildings = new Composite("All buildings");
 
-        }
-    }
+            Composite build1 = new Composite("Building #1");
+            Composite build2 = new Composite("Building #2");
+            buildings.Add(build1);
+            buildings.Add(build2); 
 
-    abstract class ResidentalComponent
-    {
-        protected string name;
-        protected int electro;
+            Composite entr1 = new Composite("Entrance #1");
+            Composite entr2 = new Composite("Entrance #2");
+            Composite entr3 = new Composite("Entrance #3");
+            build1.Add(entr1);
+            build1.Add(entr2);
+            build2.Add(entr3);
 
-        public ResidentalComponent(string name)
-        {
-            this.name = name;
-        }
+            Flat fl1 = new Flat("Flat #1");
+            Flat fl2 = new Flat("Flat #2");
+            Flat fl3 = new Flat("Flat #3");
+            Flat fl4 = new Flat("Flat #4");
+            entr1.Add(fl1);
+            entr2.Add(fl2);
+            entr2.Add(fl3);
+            entr3.Add(fl4);
+            
+            Dog dog1 = new Dog("Reks", 10);
+            Dog dog2 = new Dog("Akbar", 5);
+            Dog dog3 = new Dog("Sharik", 3);
+            Dog dog4 = new Dog("Mops", 15);
+            Cat cat1 = new Cat("Nami", 2);
+            Cat cat2 = new Cat("Pirate", 6);
+            Cat cat3 = new Cat("Murka", 5);
+            Cat cat4 = new Cat("Abel", 10);
+            
+            fl1.AddAnimal(dog1);
+            fl1.AddAnimal(dog2);
+            fl1.AddAnimal(cat1);
 
-        public abstract void Add(ResidentalComponent c);
-        public abstract void Remove(ResidentalComponent c);
-        public abstract int GetAnimalInfo();
-        public abstract double GetAverageAge();
-        public abstract void Display(int depth);
-    }
+            fl2.AddAnimal(dog3);
+            fl2.AddAnimal(cat2);
+            fl2.AddAnimal(cat3);
 
-    class Composite : ResidentalComponent
-    {
-        private List<ResidentalComponent> _children = new List<ResidentalComponent>();
+            fl3.AddAnimal(dog4);
+            fl3.AddAnimal(cat4);
 
-        public Composite(string name) : base(name) 
-        {
-            this.electro = 0;
-        }
-
-        public override void Add(ResidentalComponent component)
-        {
-            _children.Add(component);
-        }
-
-        public override void Remove(ResidentalComponent component)
-        {
-            _children.Remove(component);
-        }
-
-        public override void Display(int depth)
-        {
-            Console.WriteLine(new String('-', depth) + name + " " + this.electro.ToString());
-
-            foreach (ResidentalComponent component in _children)
-            {
-                component.Display(depth + 2);
-            }
-        }
-     
-        public override int GetAnimalInfo()
-        {
-            this.electro = 0;
-
-            foreach (ResidentalComponent component in _children)
-            {
-                this.electro += component.GetAnimalInfo();
-            }            
-            return this.electro;
-        }
-
-        public override double GetAverageAge()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    class Flat : ResidentalComponent
-    {
-        public Flat(string name) : base(name)
-        {
-            Random rnd = new Random();
-
-            this.electro = rnd.Next(150);
-        }
-
-        public override void Add(ResidentalComponent c)
-        {
-            Console.WriteLine("Impossible operation");
-        }
-
-        public override void Remove(ResidentalComponent c)
-        {
-            Console.WriteLine("Impossible operation");
-        }
-
-        public override void Display(int depth)
-        {
-            Console.WriteLine(new String('-', depth) + name + " " + electro.ToString());
-        }
-
-        public override int GetAnimalInfo()
-        {
-            return this.electro;
-        }
-
-        public override double GetAverageAge()
-        {
-            throw new NotImplementedException();
+            buildings.GetAverageAgeInfo();
+            buildings.Display(2);
         }
     }
 }
