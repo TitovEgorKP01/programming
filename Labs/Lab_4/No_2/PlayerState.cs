@@ -61,7 +61,7 @@ namespace No_2
             return isAlive;
         }
 
-        public double HP()
+        public double GetHP()
         {
             return hp;
         }
