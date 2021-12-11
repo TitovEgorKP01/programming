@@ -2,7 +2,7 @@ using System;
 
 namespace No_2
 {
-    class PlayerState : State
+    class PlayerState : IState
     {
         private Character _character;
         private double posY = 0;
@@ -71,7 +71,7 @@ namespace No_2
             return posY;
         }
     
-        public State GetStateCopy()
+        public IState GetStateCopy()
         {
             PlayerState copy = new PlayerState(_character);
 

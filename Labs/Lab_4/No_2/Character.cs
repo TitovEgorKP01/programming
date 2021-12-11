@@ -4,8 +4,8 @@ namespace No_2
 {
     class Character
     {
-        private State _currentState;
-        private State _savedState;
+        private IState _currentState;
+        private IState _savedState;
         private bool isSaved = false;
 
         public Character()
@@ -13,7 +13,7 @@ namespace No_2
             _currentState = new PlayerState(this);
         }
 
-        public void ChangeState(State state)
+        public void ChangeState(IState state)
         {
             _currentState = state;
         }
