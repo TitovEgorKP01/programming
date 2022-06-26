@@ -7,7 +7,7 @@ namespace ConsoleApp
     {
         public static void Run()
         {
-            string databasePath = "./data/NewDB.db";
+            string databasePath = "../ProcessData/data/database.db";
             RepositoryFacade repFacade = new RepositoryFacade(databasePath);
 
             IChooseStrategy categoryStrategy = new ChooseCategoryStrategy();
@@ -42,8 +42,7 @@ namespace ConsoleApp
 
                     while (true)
                     {
-                        // WriteLine("".PadRight(40, '='));
-                        // WriteLine("".PadRight(40, '-'));
+                        WriteLine("".PadRight(40, '-'));
 
                         string actionResponse = actionContext.ExecuteStrategy();
 
@@ -103,6 +102,8 @@ namespace ConsoleApp
                 {
                     Error.WriteLine($"[Error] - {ex.Message}");
                 }
+
+                WriteLine("".PadRight(40, '='));
             }
         }
 
@@ -110,7 +111,7 @@ namespace ConsoleApp
         {
             WriteLine("List of commands: \n" +
                       "For categories choose: 'phones', 'meetings', 'dates', 'tasks' \n" +
-                      "For action choose: 'create', 'update', 'delete', 'read', 'duplicate', 'filter' \n" +
+                      "For action choose: 'create', 'update', 'delete', 'read', 'duplicate', 'filter', 'search', 'export' \n" +
                       "In general: 'exit' for exit, 'help' for help, 'back' for back");
         }
 
