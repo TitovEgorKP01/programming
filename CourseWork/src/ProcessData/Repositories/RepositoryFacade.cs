@@ -16,48 +16,56 @@ public class RepositoryFacade
         _tasksRep = new TasksRepository(databasePath);
     }
 
-    public void AddNote<T>(string noteType, T note)
+    public int AddNote<T>(string noteType, T note)
     {
         ValidateNoteType(noteType);
 
+        int insertedId = 0;
+
         if (noteType == "dates")
         {
-            _datesRep.Insert(note as DateNote);
+            insertedId = _datesRep.Insert(note as DateNote);
         }
         else if (noteType == "phones")
         {
-            _phonesRep.Insert(note as PhoneNote);
+            insertedId = _phonesRep.Insert(note as PhoneNote);
         }
         else if (noteType == "meetings")
         {
-            _meetingsRep.Insert(note as MeetingNote);
+            insertedId =  _meetingsRep.Insert(note as MeetingNote);
         }
         else if (noteType == "tasks")
         {
-            _tasksRep.Insert(note as TaskNote);
+            insertedId = _tasksRep.Insert(note as TaskNote);
         }
+
+        return insertedId;
     }
 
-    public void UpdateNote<T>(string noteType, int noteId, T note)
+    public bool UpdateNote<T>(string noteType, int noteId, T note)
     {
         ValidateNoteType(noteType);
 
+        bool updated = false;
+
         if (noteType == "dates")
         {
-            _datesRep.Update(noteId, note as DateNote);
+            updated = _datesRep.Update(noteId, note as DateNote);
         }
         else if (noteType == "phones")
         {
-            _phonesRep.Update(noteId, note as PhoneNote);
+            updated = _phonesRep.Update(noteId, note as PhoneNote);
         }
         else if (noteType == "meetings")
         {
-            _meetingsRep.Update(noteId, note as MeetingNote);
+            updated = _meetingsRep.Update(noteId, note as MeetingNote);
         }
         else if (noteType == "tasks")
         {
-            _tasksRep.Update(noteId, note as TaskNote);
+            updated = _tasksRep.Update(noteId, note as TaskNote);
         }
+
+        return updated;
     }
 
     public void ReadNotes(string noteType)
@@ -150,26 +158,30 @@ public class RepositoryFacade
         }
     }
 
-    public void DeleteNote(string noteType, int noteId)
+    public bool DeleteNote(string noteType, int noteId)
     {
         ValidateNoteType(noteType);
 
+        bool deleted = false;
+
         if (noteType == "dates")
         {
-            _datesRep.DeleteById(noteId);
+            deleted = _datesRep.DeleteById(noteId);
         }
         else if (noteType == "phones")
         {
-            _phonesRep.DeleteById(noteId);
+            deleted = _phonesRep.DeleteById(noteId);
         }
         else if (noteType == "meetings")
         {
-            _meetingsRep.DeleteById(noteId);
+            deleted = _meetingsRep.DeleteById(noteId);
         }
         else if (noteType == "tasks")
         {
-            _tasksRep.DeleteById(noteId);
+            deleted = _tasksRep.DeleteById(noteId);
         }
+
+        return deleted;
     }
 
     public string[,] GetAllCategoryData(string noteType)
@@ -251,9 +263,16 @@ public class RepositoryFacade
 
     private static void PrintMass<T>(T[] mass)
     {
-        for (int i = 0; i < mass.Length; i++)
+        if (mass.Length == 0)
         {
-            Console.WriteLine(mass[i].ToString());
+            Console.WriteLine("- No entity to show -");
+        }   
+        else
+        {
+            for (int i = 0; i < mass.Length; i++)
+            {
+                Console.WriteLine(mass[i].ToString());
+            }
         }
     }
 }

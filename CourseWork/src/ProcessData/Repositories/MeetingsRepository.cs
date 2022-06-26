@@ -165,7 +165,7 @@ public class MeetingsRepository
         connection.Open();
 
         SqliteCommand command = connection.CreateCommand();
-        command.CommandText = @"DELETE FROM tasks WHERE id = $id";
+        command.CommandText = @"DELETE FROM meetings WHERE id = $id";
         command.Parameters.AddWithValue("$id", id);
 
         int deletedCount = command.ExecuteNonQuery();

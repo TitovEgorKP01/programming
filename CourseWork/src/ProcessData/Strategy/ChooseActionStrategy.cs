@@ -20,7 +20,9 @@ public class ChooseActionStrategy : IChooseStrategy
             }
             else
             {
+                WriteLine("".PadRight(40, '-'));
                 WriteLine("Incorrect action entered. Please re-enter");
+                WriteLine("".PadRight(40, '-'));
             }
         }
     }

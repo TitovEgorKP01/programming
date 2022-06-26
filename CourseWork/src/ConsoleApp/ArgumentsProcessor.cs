@@ -28,30 +28,29 @@ namespace ConsoleApp
 
                     if (categoryResponse == "exit")
                     {
-                        WriteLine("Program ending");
-
                         WriteLine("".PadRight(40, '='));
-
+                        WriteLine("Program ending");
+                        WriteLine("".PadRight(40, '='));
                         break;
                     }
                     else if (categoryResponse == "help")
                     {
+                        WriteLine("".PadRight(65, '-'));
                         ProcessHelp();
+                        WriteLine("".PadRight(65, '-'));
                         continue;
                     }
 
                     while (true)
                     {
-                        WriteLine("".PadRight(40, '-'));
-
+                        WriteLine("".PadRight(65, '-'));
                         string actionResponse = actionContext.ExecuteStrategy();
+                        WriteLine("".PadRight(65, '-'));
 
                         if (actionResponse == "exit")
                         {
                             WriteLine("Program ending");
-
                             WriteLine("".PadRight(40, '='));
-
                             return;
                         }
                         else if (actionResponse == "help")
@@ -110,6 +109,7 @@ namespace ConsoleApp
         private static void ProcessHelp()
         {
             WriteLine("List of commands: \n" +
+                      "".PadRight(40, '~') + "\n" +
                       "For categories choose: 'phones', 'meetings', 'dates', 'tasks' \n" +
                       "For action choose: 'create', 'update', 'delete', 'read', 'duplicate', 'filter', 'search', 'export' \n" +
                       "In general: 'exit' for exit, 'help' for help, 'back' for back");
@@ -117,6 +117,8 @@ namespace ConsoleApp
 
         private static void ProcessCreate(string category, RepositoryFacade rep)
         {
+            int insertedId = 0;
+
             if (category == "dates")
             {
                 Write("Enter date(month/day/year format): ");
@@ -129,7 +131,7 @@ namespace ConsoleApp
 
                 DateNote dateNote = new DateNote(date, description, lastModified);
 
-                rep.AddNote(category, dateNote);
+                insertedId = rep.AddNote(category, dateNote);
             }
             else if (category == "phones")
             {
@@ -143,7 +145,7 @@ namespace ConsoleApp
 
                 PhoneNote phoneNote = new PhoneNote(number, name, lastModified);
 
-                rep.AddNote(category, phoneNote);
+                insertedId = rep.AddNote(category, phoneNote);
             }
             else if (category == "meetings")
             {
@@ -160,7 +162,7 @@ namespace ConsoleApp
 
                 MeetingNote meetingNote = new MeetingNote(date, place, time, lastModified);
 
-                rep.AddNote(category, meetingNote);
+                insertedId = rep.AddNote(category, meetingNote);
             }
             else if (category == "tasks")
             {
@@ -177,17 +179,25 @@ namespace ConsoleApp
 
                 TaskNote taskNote = new TaskNote(title, description, date, lastModified);
 
-                rep.AddNote(category, taskNote);
+                insertedId = rep.AddNote(category, taskNote);
             }
+
+            if (insertedId != 0) Console.WriteLine("- Entity inserted -");
+            else Console.WriteLine("- Entity not inserted -");
         }
     
         private static void ProcessRead(string category, RepositoryFacade rep)
         {
+            WriteLine($"Table {category} records: ");
+            WriteLine("".PadRight(20, '~'));
+
             rep.ReadNotes(category);
         }
 
         private static void ProcessUpdate(string category, RepositoryFacade rep)
         {
+            bool updated = false;
+
             if (category == "dates")
             {
                 Write("Enter id: ");
@@ -203,7 +213,7 @@ namespace ConsoleApp
 
                 DateNote dateNote = new DateNote(date, description, lastModified);
 
-                rep.UpdateNote(category, id, dateNote);
+                updated = rep.UpdateNote(category, id, dateNote);
             }
             else if (category == "phones")
             {
@@ -220,7 +230,7 @@ namespace ConsoleApp
 
                 PhoneNote phoneNote = new PhoneNote(number, name, lastModified);
 
-                rep.UpdateNote(category, id, phoneNote);
+                updated = rep.UpdateNote(category, id, phoneNote);
             }
             else if (category == "meetings")
             {
@@ -240,7 +250,7 @@ namespace ConsoleApp
 
                 MeetingNote meetingNote = new MeetingNote(date, place, time, lastModified);
 
-                rep.UpdateNote(category, id, meetingNote);
+                updated = rep.UpdateNote(category, id, meetingNote);
             }
             else if (category == "tasks")
             {
@@ -260,8 +270,11 @@ namespace ConsoleApp
 
                 TaskNote taskNote = new TaskNote(title, description, date, lastModified);
 
-                rep.UpdateNote(category, id, taskNote);
+                updated = rep.UpdateNote(category, id, taskNote);
             }
+
+            if (updated) Console.WriteLine("- Entity updated -");
+            else Console.WriteLine("- Entity not updated -");
         }
     
         private static void ProcessDelete(string category, RepositoryFacade rep)
@@ -269,7 +282,12 @@ namespace ConsoleApp
             Write("Enter id: ");
             int id = int.Parse(ReadLine());
 
-            rep.DeleteNote(category, id);
+            bool deleted = false;
+
+            deleted = rep.DeleteNote(category, id);
+
+            if (deleted) Console.WriteLine("- Entity deleted -");
+            else Console.WriteLine("- Entity not deleted -");
         }
     
         private static void ProcessDuplicate(string category, RepositoryFacade rep)
@@ -279,38 +297,46 @@ namespace ConsoleApp
 
             Object obj = rep.ReadNoteById(category, id);
 
+            int duplicatedId = 0;
+
             if (category == "dates")
             {
                 DateNote dateNote = (DateNote)obj;
                 INote duplicate = dateNote.Clone();
 
-                rep.AddNote(category, duplicate);
+                duplicatedId = rep.AddNote(category, duplicate);
             }
             else if (category == "meetings")
             {
                 MeetingNote meetingNote = (MeetingNote)obj;
                 INote duplicate = meetingNote.Clone();
 
-                rep.AddNote(category, duplicate);
+                duplicatedId = rep.AddNote(category, duplicate);
             }
             else if (category == "phones")
             {
                 PhoneNote phoneNote = (PhoneNote)obj;
                 INote duplicate = phoneNote.Clone();
 
-                rep.AddNote(category, duplicate);
+                duplicatedId = rep.AddNote(category, duplicate);
             }
             else if (category == "tasks")
             {
                 TaskNote taskNote = (TaskNote)obj;
                 INote duplicate = taskNote.Clone();
 
-                rep.AddNote(category, duplicate);
+                duplicatedId = rep.AddNote(category, duplicate);
             }
+
+            if (duplicatedId != 0) Console.WriteLine("- Entity duplicated -");
+            else Console.WriteLine("- Entity not duplicated -");
         }
 
         private static void ProcessFilter(string category, RepositoryFacade rep)
         {
+            WriteLine("Results of filtring by lastModified option: ");
+            WriteLine("".PadRight(40, '~'));
+
             rep.ReadNotesByLastModified(category);
         }
     
@@ -325,7 +351,7 @@ namespace ConsoleApp
             }
             else if (category == "meetings")
             {
-                Write("Enter date to search (month/day/year format): ");
+                Write("Enter date to search (year-month-day format): ");
                 searchValue = ReadLine();
             }
             else if (category == "phones")
@@ -338,7 +364,10 @@ namespace ConsoleApp
                 Write("Enter title to search: ");
                 searchValue = ReadLine();
             }
-
+            
+            WriteLine("Results of search: ");
+            WriteLine("".PadRight(20, '~'));
+            
             rep.ReadNotesBySearch(category, searchValue);
         }
     
@@ -357,158 +386,8 @@ namespace ConsoleApp
                 FileExport exporter = new FileTSVExport();
                 exporter.Export(category, rep);
             }
-        }
-    }
 
-
-    public abstract class FileExport
-    {
-        public void Export(string category, RepositoryFacade rep)
-        {
-            string[,] data = GetData(category, rep);
-            ITransformer transformer = GetTransformer();
-            string transformedData = GetTransformedData(data, transformer);
-            WriteData(transformedData, category);
-        }
-
-        protected abstract ITransformer GetTransformer();
-
-        protected string[,] GetData(string category, RepositoryFacade rep)
-        {
-            return rep.GetAllCategoryData(category);
-        }
-
-        protected abstract string GetTransformedData(string[,] data, ITransformer transformer);
-
-        protected abstract void WriteData(string data, string category);
-    }
-
-    public class FileCSVExport : FileExport
-    {
-        protected override ITransformer GetTransformer()
-        {
-            TransformerCreator creator = new CSVTransformerCreator();
-
-            ITransformer transformer = creator.Create();
-
-            return transformer;
-        }
-
-        protected override string GetTransformedData(string[,] data, ITransformer transformer)
-        {
-            string transformedData = transformer.Transform(data);
-
-            return transformedData;
-        }
-
-        protected override void WriteData(string data, string category)
-        {
-            string path = $"./data/{category}_{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}_CSV.csv";
-
-            File.WriteAllText(path, data);
-        }
-    }
-
-    public class FileTSVExport : FileExport
-    {
-        protected override ITransformer GetTransformer()
-        {
-            TransformerCreator creator = new TSVTransformerCreator();
-
-            ITransformer transformer = creator.Create();
-
-            return transformer;
-        }
-
-        protected override string GetTransformedData(string[,] data, ITransformer transformer)
-        {
-            string transformedData = transformer.Transform(data);
-
-            return transformedData;
-        }
-
-        protected override void WriteData(string data, string category)
-        {
-            string path = $"./data/{category}_{DateTime.Now.Year}-{DateTime.Now.Month}-{DateTime.Now.Day}_TSV.tsv";
-
-            File.WriteAllText(path, data);
-        }
-    }
-
-
-    public abstract class TransformerCreator
-    {
-        public abstract ITransformer Create();
-    }
-
-    public class CSVTransformerCreator : TransformerCreator
-    {
-        public override ITransformer Create()
-        {
-            ITransformer csvTransformer = new CSVTransformer();
-
-            return csvTransformer;
-        }
-    }
-
-    public class TSVTransformerCreator : TransformerCreator
-    {
-        public override ITransformer Create()
-        {
-            ITransformer tsvTransformer = new TSVTransformer();
-
-            return tsvTransformer;
-        }
-    }
-
-    public interface ITransformer
-    {
-        public string Transform(string[,] data);
-    }
-
-    public class CSVTransformer : ITransformer 
-    {
-        public string Transform(string[,] data)
-        {
-            string transformedData = "";
-
-            for (int i = 0; i < data.GetLength(0); i++)
-            {
-                string[] row = new string[data.GetLength(1)];
-
-                for (int j = 0; j < data.GetLength(1); j++)
-                {
-                    row[j] = data[i, j];
-                }
-
-                transformedData += String.Join(',', row);
-                transformedData += "\n";
-            }
-
-            return transformedData;
-        }
-    }
-
-    public class TSVTransformer : ITransformer 
-    {
-        public string Transform(string[,] data)
-        {
-            string transformedData = "";
-
-            for (int i = 0; i < data.GetLength(0); i++)
-            {
-                string[] row = new string[data.GetLength(1)];
-
-                for (int j = 0; j < data.GetLength(1); j++)
-                {
-                    row[j] = data[i, j];
-                }
-
-                transformedData += String.Join('\t', row);
-                transformedData += "\n";
-            }
-
-            return transformedData;
+            WriteLine("Data was exported to 'date' directory");
         }
     }
 }

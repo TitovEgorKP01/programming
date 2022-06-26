@@ -20,7 +20,9 @@ public class ChooseCategoryStrategy : IChooseStrategy
             }
             else
             {
+                WriteLine("".PadRight(40, '-'));
                 WriteLine("Incorrect category entered. Please re-enter");
+                WriteLine("".PadRight(40, '-'));
             }
         }
     }
